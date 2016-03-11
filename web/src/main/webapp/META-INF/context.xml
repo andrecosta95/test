@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+
+	<Resource name="jdbc/FivewareDS"
+		type="javax.sql.DataSource"
+		url="jdbc:mysql://localhost/fv_fiveware"
+		username="root" password="123456"
+		driverClassName="com.mysql.jdbc.Driver"
+		removeAbandoned="true"
+		removeAbandonedTimeout="30"
+		maxActive="20"
+		maxIdle="10" 
+		maxwait="-1"
+	/>
+	
+</Context>
