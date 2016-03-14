@@ -6,7 +6,12 @@
 
 	<persistence-unit name="fiveware-test" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		
+		<class>org.fiveware.test.model.entity.Categoria</class>
+		<class>org.fiveware.test.model.entity.Livro</class>
+		
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+		
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
 		</properties>

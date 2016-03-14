@@ -1,4 +1,4 @@
-package org.fiveware.test.model;
+package org.fiveware.test.model.entity;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -9,15 +9,22 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
-@Entity(name = "FVL_LIVRO")
+@Entity
+@Table(name = "FVL_LIVRO")
+@NamedQuery(name = Livro.SELECT_BY_NAME, query = "SELECT l FROM Livro l WHERE l.nome = ?1")
 public class Livro implements Serializable {
 
 	private static final long serialVersionUID = -6373857220728109587L;
 
+	public static final String SELECT_BY_NAME = "selectLivroByName";
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "NU_ID")
@@ -41,14 +48,14 @@ public class Livro implements Serializable {
 	@Column(name = "NU_ISBN")
 	private Long isbn;
 
-	@OneToMany
+	@ManyToOne
 	@JoinColumn(name = "ID_CATEGORIA")
 	private Categoria categoria;
 
 	@Column(name = "DS_IDIOMA")
 	private String idioma;
 
-	@Column(name = "NU_ID", columnDefinition = "BIT")
+	@Column(name = "FL_EBOOK", columnDefinition = "BIT")
 	private boolean contemEbook;
 
 	@Column(name = "DT_LANCAMENTO")

@@ -1,4 +1,4 @@
-package org.fiveware.test.model;
+package org.fiveware.test.model.entity;
 
 import java.io.Serializable;
 
@@ -7,12 +7,18 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
-@Entity(name = "FVC_CATEGORIA")
+@Entity
+@Table(name = "FVC_CATEGORIA")
+@NamedQuery(name = Categoria.SELECT_BY_NAME, query = "SELECT c FROM Categoria c WHERE c.descricao = ?1")
 public class Categoria implements Serializable {
 
 	private static final long serialVersionUID = 5332437243143650680L;
-
+	
+	public static final String SELECT_BY_NAME = "selectCategoriaByName";
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "NU_ID")

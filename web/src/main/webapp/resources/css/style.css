@@ -1,3 +1,7 @@
 .clearfix {
 	clear: both;
 }
+
+.checkbox-inline label, .radio-inline label{
+  font-weight: normal;
+}
