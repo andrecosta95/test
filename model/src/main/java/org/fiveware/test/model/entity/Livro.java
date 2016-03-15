@@ -14,7 +14,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name = "FVL_LIVRO")
@@ -60,6 +61,7 @@ public class Livro implements Serializable {
 
 	@Column(name = "DT_LANCAMENTO")
 	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy", timezone="America/Sao_Paulo" )
 	private Date dataLancamento;
 
 	public Long getId() {
