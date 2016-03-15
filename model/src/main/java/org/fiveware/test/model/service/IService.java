@@ -5,13 +5,13 @@ import java.util.List;
 
 import org.fiveware.test.model.exception.FivewareTestServiceException;
 
-public interface IService<E extends Serializable, K extends Serializable> {
+public interface IService<E extends Serializable, PK extends Serializable> {
 
 	void add(E entity) throws FivewareTestServiceException;
 	
-	void rem(E entity) throws FivewareTestServiceException;
+	void remove(E entity) throws FivewareTestServiceException;
 	
-	E find(K key);
+	E find(PK id);
 	
 	List<E> list();
 }

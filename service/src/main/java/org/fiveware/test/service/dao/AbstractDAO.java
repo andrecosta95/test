@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-public abstract class AbstractDAO<E extends Serializable, K extends Serializable> implements DAO<E, K> {
+public abstract class AbstractDAO<E extends Serializable, PK extends Serializable> implements DAO<E, PK> {
 
 	@PersistenceContext
 	private EntityManager em;
@@ -43,15 +43,18 @@ public abstract class AbstractDAO<E extends Serializable, K extends Serializable
 	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=FivewareTestServiceException.class)
-	public void remove(E entity) {
-		em.remove(entity);
+	public void remove(E entity) throws Exception {
+		
+		E attachedEntity = findById(EntityUtils.getEntityId(entity));
+		
+		em.remove(attachedEntity);
 		em.flush();
 	}
 	
 	@Override
 	@SuppressWarnings("unchecked")
 	@Transactional(propagation=Propagation.SUPPORTS)
-	public E findById(K id) {
+	public E findById(PK id) {
 		return (E) em.find(getEntityClass(), id);
 	}
 	

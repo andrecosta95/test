@@ -39,7 +39,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 	}
 
 	@Override
-	public void rem(Categoria cat) throws FivewareTestServiceException {
+	public void remove(Categoria cat) throws FivewareTestServiceException {
 		
 		try {
 			

@@ -21,12 +21,13 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-public class BookController {
+public class LivroController {
 
 	@Autowired
 	private CategoriaService categoriaService;
@@ -56,7 +57,7 @@ public class BookController {
 
 	@RequestMapping(value = "/books", method = RequestMethod.GET)
 	public String showAllBooks(Model model) {
-		model.addAttribute("books", livroService.list());
+		populateListBookModel(model);
 		return "/list";
 	}
 	
@@ -64,7 +65,7 @@ public class BookController {
 	public String showAddBookForm(Model model) throws FivewareTestServiceException {
 		
 		model.addAttribute("bookForm", new Livro());
-		populateDefaultModel(model);
+		populateAddBookModel(model);
 		
 		return "/add";
 	}
@@ -80,22 +81,47 @@ public class BookController {
 				livroService.add(livro);
 				
 				model.addAttribute("css", "success");
-				model.addAttribute("msg", "Book added successfully!");
+				model.addAttribute("msg", "Book added successfully.");
 				
-				cleanDefaultModel(model);
+				cleanAddBookModel(model);
 				
 			} catch (Exception e) {
-				model.addAttribute("css", "error");
-				model.addAttribute("msg", "An error occurred during de book insertion, try again later.");
+				model.addAttribute("css", "danger");
+				model.addAttribute("msg", "An error occurred while adding book, try again later.");
 			}
 		}else{
-			populateDefaultModel(model);
+			populateAddBookModel(model);
 		}
 
 		return "/add";
 	}
 
-	private void populateDefaultModel(Model model) throws FivewareTestServiceException {
+	@RequestMapping(value = "/books/{id}/delete", method = RequestMethod.POST)
+	public String deleteBook(@PathVariable("id") long id, final RedirectAttributes redirectAttributes) throws FivewareTestServiceException {
+		
+		try {
+			
+			Livro l = livroService.find(id);
+			if(l != null) {
+				livroService.remove(l);
+			}
+			
+			redirectAttributes.addFlashAttribute("css", "success");
+			redirectAttributes.addFlashAttribute("msg", "Book deleted successfully.");
+			
+		} catch (Exception e) {
+			redirectAttributes.addFlashAttribute("css", "danger");
+			redirectAttributes.addFlashAttribute("msg", "An error occurred while deleting book, try again later.");
+		}
+		
+		return "redirect:/books";
+	}
+	
+	private void populateListBookModel(Model model) {
+		model.addAttribute("books", livroService.list());
+	}
+	
+	private void populateAddBookModel(Model model) throws FivewareTestServiceException {
 		
 		categorias = categoriaService.list();
 		if(CollectionUtils.isEmpty(categorias)) {
@@ -115,7 +141,7 @@ public class BookController {
 		model.addAttribute("categories", categorias);
 	}
 	
-	private void cleanDefaultModel(Model model) throws FivewareTestServiceException {
+	private void cleanAddBookModel(Model model) throws FivewareTestServiceException {
 		
 		Livro livro = new Livro();
 		

@@ -39,7 +39,7 @@ public class LivroServiceImpl implements LivroService {
 	}
 
 	@Override
-	public void rem(Livro livro) throws FivewareTestServiceException {
+	public void remove(Livro livro) throws FivewareTestServiceException {
 		
 		try {
 			

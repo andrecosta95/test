@@ -25,11 +25,12 @@ public class LivroValidator implements Validator {
 		
 		Livro livro = (Livro) target;
 		
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nome", 		"fiveware.book.name.empty");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "editora", 	"fiveware.book.publisher.empty");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "qtdPaginas", "fiveware.book.pages.empty");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "isbn", 		"fiveware.book.isbn.empty");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "idioma", 	"fiveware.book.language.empty");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nome", 			"fiveware.book.name.empty");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "editora", 		"fiveware.book.publisher.empty");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "qtdPaginas", 	"fiveware.book.pages.empty");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "isbn", 			"fiveware.book.isbn.empty");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "idioma", 		"fiveware.book.language.empty");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "dataLancamento", "fiveware.book.date.empty");
 		
 		if(StringUtils.isNoneBlank(livro.getNome())) {
 			if(service.findByName(livro.getNome()) != null) {
