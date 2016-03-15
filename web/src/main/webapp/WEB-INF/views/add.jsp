@@ -16,7 +16,7 @@
 	<form id="frmAddBook" class="form-horizontal" autocomplete="off">
 		
 		<div class="alert alert-dismissible" role="alert" style="display:none;">
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<button type="button" class="close" aria-label="Close" onclick="$('.alert').hide();">
 				<span aria-hidden="true">&times;</span>
 			</button>
 			<label id="lblMsgAlert" style="font-weight: bold;"></label>
@@ -33,7 +33,7 @@
 		<div id="divEditora" class="form-group">
 			<label class="col-sm-2 control-label">Publisher</label>
 			<div class="col-sm-10">
-				<input id="txtEditota" type="text" class="form-control" placeholder="Publisher" />
+				<input id="txtEditora" type="text" class="form-control" placeholder="Publisher" />
 				<label id="lblErrorEditora" class="control-label" style="display: none;"></label>
 			</div>
 		</div>
@@ -62,11 +62,11 @@
 			</div>
 		</div>
 		
-		<div id="divISBN" class="form-group">
+		<div id="divIsbn" class="form-group">
 			<label class="col-sm-2 control-label">ISBN Code</label>
 			<div class="col-sm-10">
-				<input id="txtISBN" type="text" class="form-control" placeholder="ISBN Code" />
-				<label id="lblErrorISBN" class="control-label" style="display: none;"></label>
+				<input id="txtIsbn" type="text" class="form-control" placeholder="ISBN Code" />
+				<label id="lblErrorIsbn" class="control-label" style="display: none;"></label>
 			</div>
 		</div>
 		
@@ -93,14 +93,14 @@
 			</div>
 		</div>
 		
-		<div id="divEbook" class="form-group">
-			<label class="col-sm-2 control-label">eBook</label>
+		<div id="divContemEbook" class="form-group">
+			<label class="col-sm-2 control-label">e-Book Version</label>
 			<div class="col-sm-10">
 				<div class="checkbox">
 					<label>
 						<input id="chkEbook" type="checkbox" />
 					</label>
-					<label id="lblErrorEbook" class="control-label" style="display: none;"></label>
+					<label id="lblErrorContemEbook" class="control-label" style="display: none;"></label>
 				</div>
 			</div>
 		</div>
@@ -114,8 +114,8 @@
 		</div>
 
 		<div class="form-group">
-			<div class="col-sm-offset-2 col-sm-10">
-				<button type="submit" class="btn-lg btn-primary pull-right">Add</button>
+			<div class="col-sm-offset-2 col-sm-10 clearfix">
+				<button type="submit" class="btn btn-primary btn-lg" style="float: right;">Add</button>
 			</div>
 		</div>
 	</form>

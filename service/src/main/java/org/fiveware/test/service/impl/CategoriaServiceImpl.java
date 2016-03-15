@@ -58,10 +58,38 @@ public class CategoriaServiceImpl implements CategoriaService {
 	}
 
 	@Override
+	public void update(Categoria cat) throws FivewareTestServiceException {
+		
+		try {
+			
+			if(cat.getId() != null && cat.getDescricao() != null) {
+				
+				Categoria c = dao.findById(cat.getId());
+				if(c != null) {
+					logger.info("Atualizando categoria {} para {}...", c.getDescricao(), cat.getDescricao());
+					dao.update(cat);
+				}else{
+					throw new Exception("Esta categoria não está cadastrada!");
+				}
+			}else{
+				throw new Exception("A categoria a ser atualizada deve estar preenchida.");
+			}
+		} catch (Exception e) {
+			logger.error("Ocorreu um erro ao atualizar categoria:", e);
+			throw new FivewareTestServiceException(e);
+		}
+	}
+	
+	@Override
 	public Categoria find(Integer key) {
 		return dao.findById(key);
 	}
 
+	@Override
+	public Categoria findByDescricao(String descricao) {
+		return dao.findByDescricao(descricao);
+	}
+	
 	@Override
 	public List<Categoria> list() {
 		return dao.findAll();

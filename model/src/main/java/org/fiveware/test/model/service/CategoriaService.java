@@ -4,4 +4,6 @@ import org.fiveware.test.model.entity.Categoria;
 
 public interface CategoriaService extends IService<Categoria, Integer> {
 
+	Categoria findByDescricao(String descricao);
+	
 }

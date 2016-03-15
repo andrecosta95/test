@@ -1,14 +1,14 @@
 package org.fiveware.test.web.configuration;
 
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseFactory;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor;
@@ -16,49 +16,27 @@ import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
 @EnableWebMvc
 @EnableTransactionManagement
 @ComponentScan(basePackages={"org.fiveware.test.web", "org.fiveware.test.service", })
-public class WebAppConfig extends WebMvcConfigurerAdapter {
+public class WebAppConfigTest extends WebMvcConfigurerAdapter {
 
-	private static final String 	JNDI 			= "java:comp/env/jdbc/FivewareDS";
-	private static final String 	PU_NAME 		= "fiveware";
-	private static final Database 	DATABASE 		= Database.MYSQL;
+	private static final String 	PU_NAME 		= "fiveware-test";
+	private static final Database 	DATABASE 		= Database.H2;
 	private static final boolean 	SHOW_SQL 		= false;
-	
-	@Override
-	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
-	}
-	
-	@Bean
-    public ResourceBundleMessageSource messageSource() {
-
-		ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-        messageSource.setBasenames(new String[] { "messages", "validation" });
-        messageSource.setUseCodeAsDefaultMessage(true);
-        messageSource.setDefaultEncoding("UTF-8");
-        return messageSource;
-    }
-	
-	@Bean
-	public InternalResourceViewResolver internalResourceViewResolver() {
-		
-	  InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-	  resolver.setPrefix("/WEB-INF/views");
-	  resolver.setSuffix(".jsp");
-	 
-	  return resolver;
-	}
+	private static final boolean 	GENERATE_DDL 	= true;
 	
 	@Bean
 	public DataSource dataSource() throws NamingException {
-		return (DataSource) new InitialContext().lookup(JNDI);
+		
+		EmbeddedDatabaseFactory edf = new EmbeddedDatabaseFactory();
+		edf.setDatabaseType(EmbeddedDatabaseType.H2);
+		edf.setDatabaseName("FV_FIVEWARE");
+		
+		return (DataSource) edf.getDatabase();
 	}
 	
 	@Bean
@@ -72,6 +50,7 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
 		HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
 		adapter.setDatabase(DATABASE);
 		adapter.setShowSql(SHOW_SQL);
+		adapter.setGenerateDdl(GENERATE_DDL);
 		
 		return adapter;
 	}

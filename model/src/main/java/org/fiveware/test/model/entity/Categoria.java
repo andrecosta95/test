@@ -27,6 +27,13 @@ public class Categoria implements Serializable {
 	@Column(name = "DS_DESCRICAO")
 	private String descricao;
 
+	public Categoria() {}
+	
+	public Categoria(Integer id, String descricao) {
+		this.id = id;
+		this.descricao = descricao;
+	}
+
 	public Integer getId() {
 		return id;
 	}

@@ -33,11 +33,11 @@ public abstract class AbstractDAO<E extends Serializable, PK extends Serializabl
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=FivewareTestServiceException.class)
 	public void update(E entity) throws Exception {
 		
-		E conEntity = (E) em.find(entity.getClass(), EntityUtils.getEntityId(entity));
+		E attachedEntity = (E) em.find(entity.getClass(), EntityUtils.getEntityId(entity));
 		
-		EntityUtils.merge(conEntity, entity);
+		EntityUtils.merge(attachedEntity, entity);
 		
-		em.merge(conEntity);
+		em.merge(attachedEntity);
 		em.flush();
 	}
 	

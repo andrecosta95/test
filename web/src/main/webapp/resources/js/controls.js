@@ -1,5 +1,9 @@
+String.prototype.capitalize = function() {
+    return this.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
+};
+
 $(document).ready(function() {
-    $("#txtEdicao,#txtQtdPaginas,#txtISBN,#txtPeso").each(function() {
+    $("#txtEdicao,#txtQtdPaginas,#txtIsbn,#txtPeso").each(function() {
     	$(this).keydown(function (e) {
             // Allow: backspace, delete, tab, escape, enter and .
             if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
@@ -22,11 +26,11 @@ $(document).ready(function() {
     });
     
     $('#datepicker input').datepicker({
-      	 format: "dd/mm/yyyy",
-      	 todayBtn: "linked",
-      	 language: "pt-BR",
-      	 autoclose: true
-      });
+    	format: "dd/mm/yyyy",
+	  	todayBtn: "linked",
+	  	language: "pt-BR",
+	  	autoclose: true
+	});
 });
 
 function loadAddBookComponents() {
@@ -52,7 +56,6 @@ function loadAddBookComponents() {
 		event.preventDefault();
 		addBookViaAjax();
 	});
-	
 }
 
 function loadCategories(data) {
@@ -65,15 +68,49 @@ function loadCategories(data) {
 	});
 }
 
+function deleteBookViaAjax(id) {
+	
+	$.ajax({
+		type : "POST",
+		contentType : "application/json",
+		url : "books/delete",
+		data : JSON.stringify(id),
+		dataType : 'json',
+		timeout : 100000,
+		success : function(data) {
+			
+			if(data.code == 200) {
+				removeAndShowMessage(data.message, id);
+			}else{
+				showMessage('alert-danger', data.message);
+			}
+		},
+		error : function(e) {
+			showMessage('alert-danger', 'An error occurred while deleting book, try again later.');
+		}
+	});
+}
+
+function removeAndShowMessage(msg, id) {
+	
+	$('.table').find('tr#' + id).remove();
+	
+	if($('.table tr').length == 1) {
+		$('.table').append('<tr><td colspan="5">No books found.</td></tr>');
+	}
+	
+	showMessage('alert-success', msg)
+}
+
 function addBookViaAjax() {
 	
 	var book = {};
 	book["nome"] = $('#txtNome').val();
-	book["editora"] = $('#txtEditota').val();
+	book["editora"] = $('#txtEditora').val();
 	book["edicao"] = $('#txtEdicao').val();
 	book["qtdPaginas"] = $('#txtQtdPaginas').val();
 	book["peso"] = $('#txtPeso').val();
-	book["isbn"] = $('#txtISBN').val();
+	book["isbn"] = $('#txtIsbn').val();
 	book["categoria"] = {id : $('#cmbCategoria').find(':selected').val(), descricao : $('#cmbCategoria').find(':selected').text()};
 	book["idioma"] = $('input[name=rdbIdioma]').filter(':checked').val();
 	book["contemEbook"] = $('#chkEbook').is(':checked');
@@ -89,38 +126,114 @@ function addBookViaAjax() {
 		success : function(data) {
 			
 			if(data.code == 200) {
-				cleanAndShowSuccess(data.message);
+				cleanAndShowMessage(data.message);
 			}else if(data.code == 300) {
 				handleValidationErrors(data.result);
 			}else{
-				console.error(data.message);
+				showMessage('alert-danger', data.message);
 			}
 		},
 		error : function(e) {
-			console.error(e);
+			showMessage('alert-danger', 'An error occurred while adding book, try again later.');
 		}
 	});
 	
 }
 
-function cleanAndShowSuccess(msg) {
+function cleanAndShowMessage(msg) {
+	
+	cleanAllErrors();
 	
 	$('#txtNome').val('');
-	$('#txtEditota').val('');
+	$('#txtEditora').val('');
 	$('#txtEdicao').val('');
 	$('#txtQtdPaginas').val('');
 	$('#txtPeso').val('');
-	$('#txtISBN').val('');
+	$('#txtIsbn').val('');
 	$('#cmbCategoria').val(-1);
 	$('input[name=rdbIdioma]').filter(':checked').prop('checked', false);
 	$('#chkEbook').removeAttr('checked');
 	$('#txtDataLancamento').val('');
 	
-	$('.alert').addClass('alert-success');
-	$('#lblMsgAlert').text(msg);
-	$('.alert').show();
+	showMessage('alert-success', msg);
 }
 
 function handleValidationErrors(errors) {
 	
+	cleanAllErrors();
+	
+	$.each(errors, function(i, item) {
+		showErrors(errors[i].field, errors[i].message);
+	});
+}
+
+function showBookDetailModal(id) {
+	
+	$.ajax({
+		type : "POST",
+		contentType : "application/json",
+		url : "books/get",
+		data : JSON.stringify(id),
+		dataType : 'json',
+		timeout : 100000,
+		success : function(data) {
+			
+			if(data.code == 200) {
+				loadBookDetails(data.result);
+				$('#detailBookModal').modal();
+			}else{
+				showMessage('alert-danger', data.message);
+			}
+		},
+		error : function(e) {
+			showMessage('alert-danger', 'An error occurred while retrieving book, try again later.');
+		}
+	});
+}
+
+function loadBookDetails(book) {
+	$('#dtlNome')			.text(book.nome);
+	$('#dtlEditora')		.text(book.editora);
+	$('#dtlEdicao')			.text(book.edicao);
+	$('#dtlQtdPaginas')		.text(book.qtdPaginas);
+	$('#dtlPeso')			.text(book.peso + 'g');
+	$('#dtlIsbn')			.text(book.isbn);
+	$('#dtlCategoria')		.text(book.categoria.descricao);
+	$('#dtlIdioma')			.text(book.idioma == 'pt-BR' ? 'Portuguese' : 'English');
+	$('#dtlEbook')			.text(book.contemEbook ? 'Yes' : 'No');
+	$('#dtlDataLancamento')	.text(book.dataLancamento);
+}
+
+function cleanAllErrors() {
+	cleanErrors('nome');
+	cleanErrors('editora');
+	cleanErrors('qtdPaginas');
+	cleanErrors('isbn');
+	cleanErrors('categoria');
+	cleanErrors('idioma');
+	cleanErrors('dataLancamento');
+}
+
+function cleanErrors(field) {
+	var div = 'div' + field.capitalize();
+	var label = 'lblError' + field.capitalize();
+	
+	$('#' + div).removeClass('has-error');
+	$('#' + label).text('');
+	$('#' + label).hide();
+}
+
+function showErrors(field, msg) {
+	var div = 'div' + field.capitalize();
+	var label = 'lblError' + field.capitalize();
+	
+	$('#' + div).addClass('has-error');
+	$('#' + label).text(msg);
+	$('#' + label).show();
+}
+
+function showMessage(css, msg) {
+	$('.alert').addClass(css);
+	$('#lblMsgAlert').text(msg);
+	$('.alert').show();
 }

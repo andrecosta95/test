@@ -11,6 +11,8 @@ public interface IService<E extends Serializable, PK extends Serializable> {
 	
 	void remove(E entity) throws FivewareTestServiceException;
 	
+	void update(E entity) throws FivewareTestServiceException;
+	
 	E find(PK id);
 	
 	List<E> list();

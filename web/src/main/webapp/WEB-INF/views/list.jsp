@@ -12,14 +12,12 @@
 	
 	<div class="container">
 
-		<c:if test="${not empty msg}">
-			<div class="alert alert-${css} alert-dismissible" role="alert">
-				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-				<strong>${msg}</strong>
-			</div>
-		</c:if>
+		<div class="alert alert-dismissible" role="alert" style="display:none;">
+			<button type="button" class="close" aria-label="Close" onclick="$('.alert').hide();">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<label id="lblMsgAlert" style="font-weight: bold;"></label>
+		</div>
 
 		<h1>All Books</h1>
 
@@ -41,25 +39,22 @@
 			</c:if>
 			
 			<c:forEach var="book" items="${books}">
-				<tr>
+				<tr id="${book.id}">
 					<td>${book.id}</td>
 					<td>${book.nome}</td>
 					<td>${book.editora}</td>
 					<td><fmt:formatDate value="${book.dataLancamento}" pattern="dd/MM/yyyy" /></td>
 					<td>
-						<spring:url value="/books/${book.id}" var="showBook" />
-						<spring:url value="/books/${book.id}/delete" var="deleteBook" />
-						
-						<button class="btn btn-info" onclick="location.href='${showBook}'">Details</button>
-						<button class="btn btn-danger" data-toggle="modal" data-target="#deleteBookModal" onclick="$('#deleteBookPath').val('${deleteBook}');">Delete</button>
+						<button class="btn btn-info"   onclick="showBookDetailModal(${book.id});">Details</button>
+						<button class="btn btn-danger" data-toggle="modal" data-target="#deleteBookModal" onclick="$('#selectedBookId').val('${book.id}');">Delete</button>
 					</td>
 				</tr>
 			</c:forEach>
 		</table>
 
-		<input id="deleteBookPath" type="hidden" />
+		<input id="selectedBookId" type="hidden" />
 
-		<div class="modal fade" id="deleteBookModal" role="dialog">
+		<div id="deleteBookModal" class="modal fade" role="dialog">
     		<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -70,12 +65,14 @@
 						<p>Are you sure you want to delete this book?</p>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="javascript:$('.btn-danger').prop('disabled',true);post($('#deleteBookPath').val());">Yes</button>
+						<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="deleteBookViaAjax($('#selectedBookId').val());">Yes</button>
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
 					</div>
 				</div>
 			</div>
 		</div>
+		
+		<jsp:include page="details.jsp" flush="true" />
 		
 	</div>
 

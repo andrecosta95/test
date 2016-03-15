@@ -1,86 +1,62 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<!DOCTYPE html>
-<html>
-
-<jsp:include page="fragments/header.jsp" />
-
-<div class="container">
-
-	<c:if test="${not empty msg}">
-		<div class="alert alert-${css} alert-dismissible" role="alert">
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-			</button>
-			<strong>${msg}</strong>
+<div id="detailBookModal" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 id="dtlNome" class="modal-title"></h4>
+			</div>
+			<div class="modal-body form-horizontal">
+				
+				<div class="row">
+					<label class="col-sm-3 control-label cor-cinza">Publisher</label>
+					<label id="dtlEditora" class="col-sm-8 pad-top-7"></label>
+				</div>
+				
+				<div class="row">
+					<label class="col-sm-3 control-label cor-cinza">Edition</label>
+					<label id="dtlEdicao" class="col-sm-8 pad-top-7"></label>
+				</div>
+			
+				<div class="row">
+					<label class="col-sm-3 control-label cor-cinza">Number of Pages</label>
+					<label id="dtlQtdPaginas" class="col-sm-8 pad-top-7"></label>
+				</div>
+			
+				<div class="row">
+					<label class="col-sm-3 control-label cor-cinza">Weight</label>
+					<label id="dtlPeso" class="col-sm-8 pad-top-7"></label>
+				</div>
+			
+				<div class="row">
+					<label class="col-sm-3 control-label cor-cinza">ISBN Code</label>
+					<label id="dtlIsbn" class="col-sm-8 pad-top-7"></label>
+				</div>
+			
+				<div class="row">
+					<label class="col-sm-3 control-label cor-cinza">Category</label>
+					<label id="dtlCategoria" class="col-sm-8 pad-top-7"></label>
+				</div>
+			
+				<div class="row">
+					<label class="col-sm-3 control-label cor-cinza">Language</label>
+					<label id="dtlIdioma" class="col-sm-8 pad-top-7"></label>
+				</div>
+			
+				<div class="row">
+					<label class="col-sm-3 control-label cor-cinza">e-Book Version</label>
+					<label id="dtlEbook" class="col-sm-8 pad-top-7"></label>
+				</div>
+			
+				<div class="row">
+					<label class="col-sm-3 control-label cor-cinza">Release Date</label>
+					<label id="dtlDataLancamento" class="col-sm-8 pad-top-7"></label>
+				</div>
+						
+			</div>
 		</div>
-	</c:if>
-
-	<h1>Book Detail</h1>
-	<br />
-
-	<div class="row">
-		<label class="col-sm-2">ID</label>
-		<div class="col-sm-10">${book.id}</div>
 	</div>
-
-	<div class="row">
-		<label class="col-sm-2">Name</label>
-		<div class="col-sm-10">${book.nome}</div>
-	</div>
-
-	<div class="row">
-		<label class="col-sm-2">Publisher</label>
-		<div class="col-sm-10">${book.editora}</div>
-	</div>
-	
-	<div class="row">
-		<label class="col-sm-2">Edition</label>
-		<div class="col-sm-10">${book.edicao}</div>
-	</div>
-
-	<div class="row">
-		<label class="col-sm-2">Number of Pages</label>
-		<div class="col-sm-10">${book.qtdPaginas}</div>
-	</div>
-
-	<div class="row">
-		<label class="col-sm-2">Weight</label>
-		<div class="col-sm-10">${book.peso}</div>
-	</div>
-
-	<div class="row">
-		<label class="col-sm-2">ISBN</label>
-		<div class="col-sm-10">${book.isbn}</div>
-	</div>
-
-	<div class="row">
-		<label class="col-sm-2">Category</label>
-		<div class="col-sm-10">${book.categoria.descricao}</div>
-	</div>
-
-	<div class="row">
-		<label class="col-sm-2">Language</label>
-		<div class="col-sm-10">${book.language}</div>
-	</div>
-
-	<div class="row">
-		<label class="col-sm-2">eBook</label>
-		<div class="col-sm-10">${book.contemEbook ? 'Yes' : 'No'}</div>
-	</div>
-
-	<div class="row">
-		<label class="col-sm-2">Published On</label>
-		<div class="col-sm-10"><fmt:formatDate value="${book.dataLancamento}" pattern="dd/MM/yyyy" /></div>
-	</div>
-
 </div>
-
-<jsp:include page="fragments/footer.jsp" />
-
-</body>
-</html>

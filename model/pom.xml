@@ -12,6 +12,8 @@
 
 	<dependencies>
 
+		<!-- Core -->
+
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
@@ -21,7 +23,7 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
 		</dependency>
-
+		
 	</dependencies>
 
 </project>

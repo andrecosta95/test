@@ -30,7 +30,7 @@ public class Livro implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "NU_ID")
 	private Long id;
-
+	
 	@Column(name = "NM_NOME")
 	private String nome;
 

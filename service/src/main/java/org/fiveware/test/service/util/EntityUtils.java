@@ -29,15 +29,15 @@ public final class EntityUtils {
 		}
 	}
 	
-	public static <E> E merge(E newEntity, E oldEntity) throws Exception {
+	public static <E> E merge(E attachedEntity, E detachedEntity) throws Exception {
 		
-		Object id = getEntityId(oldEntity);
+		Object id = getEntityId(attachedEntity);
 		
-		BeanUtils.copyProperties(oldEntity, newEntity);
+		BeanUtils.copyProperties(attachedEntity, detachedEntity);
 		
-		setEntityId(newEntity, id);
+		setEntityId(attachedEntity, id);
 		
-		return newEntity;
+		return attachedEntity;
 	}
 	
 }

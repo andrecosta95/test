@@ -58,6 +58,29 @@ public class LivroServiceImpl implements LivroService {
 	}
 
 	@Override
+	public void update(Livro livro) throws FivewareTestServiceException {
+		
+		try {
+			
+			if(livro.getId() != null && livro.getNome() != null) {
+				
+				Livro l = dao.findById(livro.getId());
+				if(l != null) {
+					logger.info("Atualizando livro {} para {}...", l.getNome(), livro.getNome());
+					dao.update(livro);
+				}else{
+					throw new Exception("Este livro não está cadastrado!");
+				}
+			}else{
+				throw new Exception("O livro a ser atualizado deve estar preenchido.");
+			}
+		} catch (Exception e) {
+			logger.error("Ocorreu um erro ao atualizar livro:", e);
+			throw new FivewareTestServiceException(e);
+		}
+	}
+	
+	@Override
 	public Livro find(Long key) {
 		return dao.findById(key);
 	}
