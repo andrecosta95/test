@@ -1,4 +1,4 @@
-package org.fiveware.test.service;
+package org.fiveware.test.test.service;
 
 import java.util.Date;
 
@@ -7,7 +7,7 @@ import org.fiveware.test.model.entity.Livro;
 import org.fiveware.test.model.exception.FivewareTestServiceException;
 import org.fiveware.test.model.service.CategoriaService;
 import org.fiveware.test.model.service.LivroService;
-import org.fiveware.test.web.configuration.WebAppConfigTest;
+import org.fiveware.test.test.web.configuration.WebAppConfigTest;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.FixMethodOrder;

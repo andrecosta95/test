@@ -1,4 +1,4 @@
-package org.fiveware.test.web.util;
+package org.fiveware.test.test.web.util;
 
 import org.springframework.validation.AbstractBindingResult;
 

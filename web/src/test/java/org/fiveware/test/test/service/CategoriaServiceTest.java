@@ -1,9 +1,9 @@
-package org.fiveware.test.service;
+package org.fiveware.test.test.service;
 
 import org.fiveware.test.model.entity.Categoria;
 import org.fiveware.test.model.exception.FivewareTestServiceException;
 import org.fiveware.test.model.service.CategoriaService;
-import org.fiveware.test.web.configuration.WebAppConfigTest;
+import org.fiveware.test.test.web.configuration.WebAppConfigTest;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Test;

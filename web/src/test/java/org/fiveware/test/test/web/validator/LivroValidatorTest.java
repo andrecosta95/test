@@ -1,4 +1,4 @@
-package org.fiveware.test.web.validator;
+package org.fiveware.test.test.web.validator;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.fiveware.test.model.entity.Categoria;
 import org.fiveware.test.model.entity.Livro;
 import org.fiveware.test.model.service.LivroService;
+import org.fiveware.test.web.validator.LivroValidator;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.FixMethodOrder;

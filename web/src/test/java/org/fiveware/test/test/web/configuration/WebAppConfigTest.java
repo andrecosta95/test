@@ -1,4 +1,4 @@
-package org.fiveware.test.web.configuration;
+package org.fiveware.test.test.web.configuration;
 
 import javax.naming.NamingException;
 import javax.sql.DataSource;
@@ -21,7 +21,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 @EnableWebMvc
 @EnableTransactionManagement
-@ComponentScan(basePackages={"org.fiveware.test.web", "org.fiveware.test.service", })
+@ComponentScan(basePackages={"org.fiveware.test.test.web", "org.fiveware.test.test.service", })
 public class WebAppConfigTest extends WebMvcConfigurerAdapter {
 
 	private static final String 	PU_NAME 		= "fiveware-test";

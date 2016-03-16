@@ -1,5 +1,6 @@
-package org.fiveware.test.web.util;
+package org.fiveware.test.test.web.util;
 
+import org.fiveware.test.web.util.WebUtils;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Test;

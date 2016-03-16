@@ -1,6 +1,7 @@
-package org.fiveware.test.web.editor;
+package org.fiveware.test.test.web.editor;
 
 import org.fiveware.test.model.entity.Categoria;
+import org.fiveware.test.web.editor.CategoriaEditor;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
